@@ -57,8 +57,8 @@ Artisan::command("random-pass", function () {
 
 function generate(int $length = 10, string $charlist = '0-9a-z'): string
 {
-    $charlist = count_chars(preg_replace_callback('#.-.#', function (array $m): string {
-        return implode('', range($m[0][0], $m[0][2]));
+    $charlist = count_chars(preg_replace_callback('#.-.#', function (array $match): string {
+        return implode('', range($match[0][0], $match[0][2]));
     }, $charlist), 3);
     $chLen = strlen($charlist);
 
