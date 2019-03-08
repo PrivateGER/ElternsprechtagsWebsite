@@ -24,9 +24,9 @@
                             <br />
                             Passwort: {{ $data["password"] }}
                             <br />
-                            <u><p style="color: red">Bitte bewahren Sie das Passwort sicher auf, es wird Ihnen nur hier angezeigt!</p></u>
+                            <b><p style="color: red">Bitte bewahren Sie das Passwort sicher auf, es wird Ihnen nur hier angezeigt!</p></b>
                             <br />
-                            <a href="{{ getenv("APP_URL") }}">Zu {{ getenv("APP_NAME") }}</a>
+                            <u><a href="{{ getenv("APP_URL") }}">Zu {{ getenv("APP_NAME") }}</a></u>
                         </div>
                     </div>
                 </div>
