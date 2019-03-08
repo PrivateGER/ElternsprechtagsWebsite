@@ -18,13 +18,13 @@
                         <div class="card-body">
                             Guten Tag.
                             <br />
-                            Im folgenden sehen sie ihren Nutzernamen und ihr Passwort für {{ getenv("APP_NAME") }}.
+                            Im folgenden sehen Sie Ihren Nutzernamen und Ihr Passwort für {{ getenv("APP_NAME") }}.
                             <br />
                             Email: {{ $data["email"] }}
                             <br />
                             Passwort: {{ $data["password"] }}
                             <br />
-                            <u><p style="color: red">Bitte bewahren sie das Passwort sicher auf, es wird ihnen nur hier angezeigt!</p></u>
+                            <u><p style="color: red">Bitte bewahren Sie das Passwort sicher auf, es wird Ihnen nur hier angezeigt!</p></u>
                             <br />
                             <a href="{{ getenv("APP_URL") }}">Zu {{ getenv("APP_NAME") }}</a>
                         </div>
