@@ -15,6 +15,10 @@
                     @endif
 
                     Willkommen zurück zu {{ getenv("APP_NAME") }}, {{ \Illuminate\Support\Facades\Auth::user()["name"]  }}!
+
+                    @if (\Illuminate\Support\Facades\Auth::user()["lehrer"] == "1")
+                        <p>Sie sind als Lehrer angemeldet.</p>
+                    @endif
                 </div>
             </div>
         </div>

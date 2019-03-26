@@ -28,24 +28,47 @@ Artisan::command("regenerate-users", function () {
     User::truncate();
 
 
-    foreach (DB::select("SELECT DISTINCT `COL 1`, `COL 2` from schueler  ORDER BY `COL 1` LIMIT 20") as $schueler) {
+    foreach (DB::select("SELECT DISTINCT `Nachname`, `Vorname` from schueler  ORDER BY `Nachname` LIMIT 1") as $schueler) {
         $decodedSchueler = json_decode(json_encode($schueler), true);
         $schuelerPass = generate(12);
 
-        $this->comment(json_decode(json_encode($schueler), true)["COL 2"]. json_decode(json_encode($schueler), true)["COL 1"]. " | Pass: " . $schuelerPass . " | " . strtolower($decodedSchueler["COL 2"]) . "." .strtolower($decodedSchueler["COL 1"]).'@gsma.schulbistum.com');
+        $this->comment(json_decode(json_encode($schueler), true)["Nachname"]. json_decode(json_encode($schueler), true)["Vorname"]. " | Pass: " . $schuelerPass . " | " . strtolower($decodedSchueler["Nachname"]) . "." .strtolower($decodedSchueler["Vorname"]).'@gsma.schulbistum.com');
 
         User::create( [
-            'email' =>  strtolower($decodedSchueler["COL 2"]) . "." .strtolower($decodedSchueler["COL 1"]).'@gsma.schulbistum.com' ,
+            'email' =>  strtolower($decodedSchueler["Nachname"]) . "." .strtolower($decodedSchueler["Vorname"]).'@gsma.schulbistum.com' ,
             'password' => Hash::make( $schuelerPass ) ,
-            'name' => $decodedSchueler["COL 2"] . $decodedSchueler["COL 1"],
+            'name' => $decodedSchueler["Nachname"] . $decodedSchueler["Vorname"],
+            'lehrer' => '0',
         ]);
 
         $emailData = $decodedSchueler;
         $emailData["password"] = $schuelerPass;
-        $emailData["email"] = strtolower($decodedSchueler["COL 2"]) . "." .strtolower($decodedSchueler["COL 1"]).'@gsma.schulbistum.com';
+        $emailData["email"] = strtolower($decodedSchueler["Nachname"]) . "." .strtolower($decodedSchueler["Vorname"]).'@gsma.schulbistum.com';
 
-        new_password_email(strtolower($decodedSchueler["COL 2"]) . "." .strtolower($decodedSchueler["COL 1"]).'@gsma.schulbistum.com', $emailData);
+        new_password_email($emailData["email"], $emailData);
     }
+
+    foreach (DB::select("SELECT DISTINCT `Nachname`, `Vorname`, `Internes Kürzel` from lehrer ORDER BY `Nachname` LIMIT 1") as $lehrer) {
+        $decodedLehrer = json_decode(json_encode($lehrer), true);
+        $lehrerPass = generate(16);
+
+        $this->comment(json_decode(json_encode($lehrer), true)["Nachname"] . json_decode(json_encode($lehrer), true)["Vorname"]. " | Pass: " . $lehrerPass . " | " . strtolower($decodedLehrer["Vorname"]) . "." . strtolower($decodedLehrer["Nachname"]) . '@gsma.schulbistum.com');
+
+        User::create( [
+            'email' =>  strtolower($decodedLehrer["Vorname"]) . "." . strtolower($decodedLehrer["Nachname"]) . '@gsma.schulbistum.com' ,
+            'password' => Hash::make( $lehrerPass ) ,
+            'name' => $decodedLehrer["Nachname"] . $decodedSchueler["Vorname"],
+            'lehrer' => '1',
+            'lehrerID' => $decodedLehrer["Internes Kürzel"]
+        ]);
+
+        $emailData = $decodedLehrer;
+        $emailData["password"] = $lehrerPass;
+        $emailData["email"] = strtolower($decodedLehrer["Vorname"]) . "." . strtolower($decodedLehrer["Nachname"]) . '@gsma.schulbistum.com';
+
+        new_password_email($emailData["email"], $emailData);
+    }
+
 });
 
 
