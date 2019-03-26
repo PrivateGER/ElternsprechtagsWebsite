@@ -18,10 +18,16 @@
 
                     @if (\Illuminate\Support\Facades\Auth::user()["lehrer"] == "1")
                         <p>Sie sind als Lehrer angemeldet.</p>
+                     @else
+                        <p>Sie sind als Schüler angemeldet.</p>
                     @endif
                 </div>
             </div>
         </div>
     </div>
 </div>
+@if (\Illuminate\Support\Facades\Auth::user()["lehrer"] !== "1")
+    <br />
+    @include("layouts.lehrer_search")
+@endif
 @endsection

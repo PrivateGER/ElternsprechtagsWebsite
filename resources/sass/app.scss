@@ -11,10 +11,18 @@
 // St. Michael Colors & Design
 @import "st_michael_color_scheme";
 
+// jQuery UI CSS
+@import url("https://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery.ui.all.css");
+
 .navbar-laravel {
   background-color: #fff;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
 }
 
+.centered {
+  text-align: center;
+}
 
-
+.autocomplete-suggestions {
+  text-align: center;
+}

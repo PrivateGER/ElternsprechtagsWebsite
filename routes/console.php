@@ -28,7 +28,7 @@ Artisan::command("regenerate-users", function () {
     User::truncate();
 
 
-    foreach (DB::select("SELECT DISTINCT `Nachname`, `Vorname` from schueler  ORDER BY `Nachname` LIMIT 1") as $schueler) {
+    foreach (DB::select("SELECT DISTINCT `Nachname`, `Vorname` from schueler  ORDER BY `Nachname` LIMIT 10") as $schueler) {
         $decodedSchueler = json_decode(json_encode($schueler), true);
         $schuelerPass = generate(12);
 
@@ -48,7 +48,7 @@ Artisan::command("regenerate-users", function () {
         new_password_email($emailData["email"], $emailData);
     }
 
-    foreach (DB::select("SELECT DISTINCT `Nachname`, `Vorname`, `Internes Kürzel` from lehrer ORDER BY `Nachname` LIMIT 1") as $lehrer) {
+    foreach (DB::select("SELECT DISTINCT `Nachname`, `Vorname`, `Internes Kürzel` from lehrer ORDER BY `Nachname` LIMIT 10") as $lehrer) {
         $decodedLehrer = json_decode(json_encode($lehrer), true);
         $lehrerPass = generate(16);
 
@@ -94,8 +94,8 @@ function generate(int $length = 10, string $charlist = '0-9a-z'): string
 
 function new_password_email($address, $data) {
 
-    Mail::send("emails.newpass", array("data" => $data), function ($message) use ($address) {
+    /*Mail::send("emails.newpass", array("data" => $data), function ($message) use ($address) {
         $message->from(getenv("SUPPORT_EMAIL"), getenv("APP_NAME"). " Administration");
         $message->to($address)->subject("Zugangsdaten für " . getenv("APP_NAME"));
-    });
+    });*/
 }
