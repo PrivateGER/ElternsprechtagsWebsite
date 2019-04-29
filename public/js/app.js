@@ -36397,6 +36397,25 @@ __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
 __webpack_require__(/*! ./jquery-ui */ "./resources/js/jquery-ui.js");
 
+window.setupLehrersuche = function () {
+  document.getElementById("lehrerInput").addEventListener('input', function (evt) {
+    processLehrerSearch(this.value);
+  });
+  document.getElementById("lehrerInput").addEventListener('paste', function (evt) {
+    processLehrerSearch(this.value);
+  });
+  document.getElementById("lehrerInput").addEventListener('select', function (evt) {
+    processLehrerSearch(this.value);
+  });
+
+  window.processLehrerSearch = function (name) {
+    if (name.length > 4) {
+      document.getElementById("lehrerSearchResult").innerHTML = "";
+      console.log(name);
+    }
+  };
+};
+
 /***/ }),
 
 /***/ "./resources/js/bootstrap.js":
