@@ -28,7 +28,7 @@ Artisan::command("regenerate-users", function () {
     User::truncate();
 
 
-    foreach (DB::select("SELECT DISTINCT `Nachname`, `Vorname` from schueler  ORDER BY `Nachname` LIMIT 10") as $schueler) {
+    foreach (DB::select("SELECT DISTINCT `Nachname`, `Vorname` from schueler  ORDER BY `Nachname` LIMIT 1") as $schueler) {
         $decodedSchueler = json_decode(json_encode($schueler), true);
         $schuelerPass = generate(12);
 
@@ -39,6 +39,7 @@ Artisan::command("regenerate-users", function () {
             'password' => Hash::make( $schuelerPass ) ,
             'name' => $decodedSchueler["Nachname"] . $decodedSchueler["Vorname"],
             'lehrer' => '0',
+            'schuelerID' => \Ramsey\Uuid\Uuid::uuid4()
         ]);
 
         $emailData = $decodedSchueler;
@@ -48,7 +49,10 @@ Artisan::command("regenerate-users", function () {
         new_password_email($emailData["email"], $emailData);
     }
 
-    foreach (DB::select("SELECT DISTINCT `Nachname`, `Vorname`, `Internes Kürzel` from lehrer ORDER BY `Nachname` LIMIT 10") as $lehrer) {
+    DB::statement("TRUNCATE timetable;");
+    DB::statement("TRUNCATE time_requests;");
+
+    foreach (\App\Lehrer::get()->unique("Internes Kürzel")->take(10) as $lehrer) {
         $decodedLehrer = json_decode(json_encode($lehrer), true);
         $lehrerPass = generate(16);
 
@@ -61,6 +65,13 @@ Artisan::command("regenerate-users", function () {
             'lehrer' => '1',
             'lehrerID' => $decodedLehrer["Internes Kürzel"]
         ]);
+
+        DB::table("timetable")->insert(array(
+            "lehrer" => $decodedLehrer["Internes Kürzel"],
+            "target_date" => "31-12-12",
+            "requestedByID" => "9999",
+            "requestedByName" => "Platzhalter, bitte ignorieren"
+        ));
 
         $emailData = $decodedLehrer;
         $emailData["password"] = $lehrerPass;

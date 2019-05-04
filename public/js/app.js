@@ -36416,6 +36416,30 @@ window.setupLehrersuche = function () {
   };
 };
 
+window.requestDate = function (dateString) {
+  var lehrerID = document.getElementById("lehrerID").value;
+
+  if (confirm("Sind sie sicher dass sie den Termin um " + dateString + " anfragen möchten?")) {
+    var data = {
+      "lehrerID": lehrerID,
+      "date": dateString
+    };
+    var formBody = Object.keys(data).map(function (key) {
+      return encodeURIComponent(key) + '=' + encodeURIComponent(data[key]);
+    }).join('&');
+    fetch("/home/lehrer/request", {
+      method: 'POST',
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+        'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
+      },
+      body: formBody
+    }).then(function (res) {
+      return window.location.reload();
+    });
+  }
+};
+
 /***/ }),
 
 /***/ "./resources/js/bootstrap.js":

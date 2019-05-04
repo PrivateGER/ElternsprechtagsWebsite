@@ -6,8 +6,12 @@
 
                 <div class="card-body">
                     <div class="centered">
-                        <input type="text" id="lehrerInput" placeholder="Lehrernamen eingeben..." width="match-content">
-                        <div id="lehrerSearchResult"></div>
+                        <form action="/home/lehrer/search" method="get">
+                             @csrf
+                            <input type="text" id="lehrerInput" name="lehrername" placeholder="Lehrernamen eingeben..." width="match-content">
+                            <div id="lehrerSearchResult"></div>
+                            <input type="submit" value="Suchen">
+                        </form>
                     </div>
                 </div>
             </div>
@@ -18,13 +22,12 @@
 <?php
     use Illuminate\Support\Facades\DB;
 
-    $data = DB::select("SELECT * from users WHERE lehrer = 1");
-    $data = json_decode(json_encode($data), true);
+    $data = \App\Lehrer::getAllLehrerNames();
 
     $lehrerNames = [];
 
     foreach ($data as $lehrer) {
-        array_push($lehrerNames, $lehrer["name"]);
+        array_push($lehrerNames, $lehrer->Vorname . " " . $lehrer->Nachname);
     }
 
     echo "let lehrer = JSON.parse('" . json_encode($lehrerNames) . "');";

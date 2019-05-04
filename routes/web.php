@@ -22,3 +22,11 @@ Route::get('/home', 'HomeController@index')->name('home');
 Auth::routes();
 
 Route::get("/api/timetable/:lehrer/", 'HomeController@teacher_timetable');
+
+Auth::routes();
+
+Route::get("/home/lehrer/search/", "TimeController@lehrer_time_table");
+
+Auth::routes();
+
+Route::post("/home/lehrer/request", "TimeController@requestDate");

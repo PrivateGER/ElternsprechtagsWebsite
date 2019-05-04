@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class Timetable extends Migration
+class TimeRequests extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class Timetable extends Migration
      */
     public function up()
     {
-        Schema::create('timetable', function (Blueprint $table) {
+        Schema::create('time_requests', function (Blueprint $table) {
             $table->increments('id')->index();
             $table->string('lehrer');
             $table->timestamp('target_date');
@@ -30,7 +30,6 @@ class Timetable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('timetable');
-        //
+        Schema::dropIfExists('time_requests');
     }
 }
