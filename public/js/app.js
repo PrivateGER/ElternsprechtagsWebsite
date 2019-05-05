@@ -36440,6 +36440,10 @@ window.requestDate = function (dateString) {
   }
 };
 
+window.approveRequest = function (reqID) {};
+
+window.denyRequest = function (reqID) {};
+
 /***/ }),
 
 /***/ "./resources/js/bootstrap.js":

@@ -35,7 +35,9 @@ class TimeController extends Controller
             "lehrer" => $_POST["lehrerID"],
             "target_date" => $_POST["date"],
             "requestedByID" => Auth::id(),
-            "requestedByName" => Auth::user()["name"]
+            "requestedByName" => Auth::user()["name"],
+            "denied" => 0,
+            "processed" => 0
         ));
     }
 

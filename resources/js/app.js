@@ -43,3 +43,11 @@ window.requestDate = (dateString) => {
         }).then((res) => window.location.reload())
     }
 };
+
+window.approveRequest = (reqID) => {
+
+};
+
+window.denyRequest = (reqID) => {
+
+};

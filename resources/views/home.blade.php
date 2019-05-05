@@ -27,7 +27,11 @@
     </div>
 </div>
 @if (\Illuminate\Support\Facades\Auth::user()["lehrer"] === 0)
-    <br />
-    @include("layouts.lehrer_search")
+        <br />
+        @include("layouts.lehrer_search")
+        @include("layouts.schueler_requests")
+    @else
+        <br />
+        @include("layouts.lehrer_dashboard")
 @endif
 @endsection

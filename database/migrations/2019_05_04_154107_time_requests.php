@@ -17,6 +17,8 @@ class TimeRequests extends Migration
             $table->increments('id')->index();
             $table->string('lehrer');
             $table->timestamp('target_date');
+            $table->integer("denied");
+            $table->integer("processed");
             $table->string("requestedByID");
             $table->string("requestedByName");
             $table->timestamp('added')->useCurrent();
