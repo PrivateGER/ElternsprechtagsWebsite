@@ -1,5 +1,8 @@
 require("./bootstrap");
 require("./jquery-ui");
+require("sweetalert");
+
+import swal from 'sweetalert';
 
 window.setupLehrersuche = () => {
     document.getElementById("lehrerInput").addEventListener('input', function (evt) {
@@ -40,7 +43,48 @@ window.requestDate = (dateString) => {
                 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
             },
             body: formBody
-        }).then((res) => window.location.reload())
+        }).then((res) => { return res.json() })
+            .then((res) => {
+                if(res.err === undefined) {
+                    swal("OK", "Anfrage erfolgreich versendet!", "success");
+                } else {
+                    swal("Error", res.err, "error");
+                }
+            })
+    }
+};
+
+window.updateRequestsS = () => {
+    fetch("/home/schueler/requestList")
+        .then((res) => { return res.text() })
+        .then((res) => {
+            document.getElementById("schuelerRequestBox").innerHTML = res;
+        });
+};
+
+window.cancelReqSchueler = (reqID) => {
+    if(confirm("Sind sie sicher dass sie die Anfrage zurückziehen möchten?")) {
+
+        let data = {
+            "reqID": reqID
+        };
+
+        const formBody = Object.keys(data).map(key => encodeURIComponent(key) + '=' + encodeURIComponent(data[key])).join('&');
+
+        fetch("/home/lehrer/cancelRequestS", {
+            method: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+                'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
+            },
+            body: formBody
+        }).then((res) => { return res.json() })
+            .then((res) => {
+                if(res.err !== undefined) {
+                    swal("Error", res.err, "error");
+                }
+            })
+            .then(() => updateRequestsS());
     }
 };
 

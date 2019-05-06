@@ -66,12 +66,14 @@ Artisan::command("regenerate-users", function () {
             'lehrerID' => $decodedLehrer["Internes Kürzel"]
         ]);
 
-        DB::table("timetable")->insert(array(
+        /*DB::table("time_requests")->insert(array(
             "lehrer" => $decodedLehrer["Internes Kürzel"],
             "target_date" => "31-12-12",
             "requestedByID" => "9999",
-            "requestedByName" => "Platzhalter, bitte ignorieren"
-        ));
+            "requestedByName" => "Platzhalter, bitte ignorieren",
+            "denied" => 1,
+            "processed" => 1
+        ));*/
 
         $emailData = $decodedLehrer;
         $emailData["password"] = $lehrerPass;

@@ -30,3 +30,13 @@ Route::get("/home/lehrer/search/", "TimeController@lehrer_time_table");
 Auth::routes();
 
 Route::post("/home/lehrer/request", "TimeController@requestDate");
+
+Auth::routes();
+
+Route::get("/home/schueler/requestList", function() {
+    return view("layouts.schueler_requests");
+});
+
+Auth::routes();
+
+Route::post("/home/lehrer/cancelRequestS", "TimeController@schuelerCancelRequest");

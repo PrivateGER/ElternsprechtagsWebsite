@@ -29,7 +29,9 @@
 @if (\Illuminate\Support\Facades\Auth::user()["lehrer"] === 0)
         <br />
         @include("layouts.lehrer_search")
+        <div id="schuelerRequestBox">
         @include("layouts.schueler_requests")
+        </div>
     @else
         <br />
         @include("layouts.lehrer_dashboard")
