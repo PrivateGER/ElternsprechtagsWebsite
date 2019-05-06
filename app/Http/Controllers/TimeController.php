@@ -117,6 +117,16 @@ class TimeController extends Controller
         }
     }
 
+    public function lehrerTerminPlan() {
+        $termine = \App\TimeRequest::where("lehrer", Auth::id())
+            ->where("processed", 1)
+            ->where("denied", 0)
+            ->orderBy("target_date", "desc")
+            ->get();
+
+        return view("layouts.lehrer_terminplan", array("termine" => $termine));
+    }
+
     function convertToObject($array) {
         $object = new \stdClass();
         foreach ($array as $key => $value) {

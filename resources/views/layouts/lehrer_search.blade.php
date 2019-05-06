@@ -10,6 +10,7 @@
                              @csrf
                             <input type="text" id="lehrerInput" name="lehrername" placeholder="Lehrernamen eingeben..." width="match-content">
                             <div id="lehrerSearchResult"></div>
+                            <br />
                             <input type="submit" value="Suchen">
                         </form>
                     </div>

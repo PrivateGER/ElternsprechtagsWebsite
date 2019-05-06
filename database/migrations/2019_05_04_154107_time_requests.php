@@ -16,7 +16,7 @@ class TimeRequests extends Migration
         Schema::create('time_requests', function (Blueprint $table) {
             $table->increments('id')->index();
             $table->string('lehrer');
-            $table->timestamp('target_date');
+            $table->timestamp('target_date')->nullable();
             $table->integer("denied");
             $table->integer("processed");
             $table->string("requestedByID");

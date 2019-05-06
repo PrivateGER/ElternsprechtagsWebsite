@@ -40,3 +40,7 @@ Route::get("/home/schueler/requestList", function() {
 Auth::routes();
 
 Route::post("/home/lehrer/cancelRequestS", "TimeController@schuelerCancelRequest");
+
+Auth::routes();
+
+Route::get("/home/lehrer/terminplan", "TimeController@lehrerTerminPlan");
