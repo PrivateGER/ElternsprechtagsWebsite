@@ -85,7 +85,6 @@ Artisan::command("regenerate-users", function () {
 });
 
 
-
 Artisan::command("random-pass", function () {
     $this->comment(generate(16, "a-zA-Z0-9!*%$&"));
 });

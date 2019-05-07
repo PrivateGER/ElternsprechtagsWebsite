@@ -2,7 +2,7 @@
 
 
 $openRequests = \App\TimeRequest::where("lehrer", "=", \Illuminate\Support\Facades\Auth::user()["lehrerID"])
-    ->where("denied", "=", 0)
+    ->where("processed", 0)
     ->get();
 
 ?>
@@ -15,7 +15,7 @@ $openRequests = \App\TimeRequest::where("lehrer", "=", \Illuminate\Support\Facad
                     <ul class="list-group list-group-flush">
                         <li class='list-group-item'>Sie haben <b>{{ sizeof($openRequests) }}</b> offene Terminanfrage(n).</li>
                         @foreach($openRequests as $request)
-                            <li class='list-group-item'>{{ (new DateTime($request->target_date))->format("d.m H:i\n") }} von {{ $request->requestedByName }}</li>
+                            <li class='list-group-item'>{{ (new DateTime($request->target_date))->format("d.m H:i\n") }} von {{ $request->requestedByName }}<br /><button class="btn btn-success" onclick="approveRequest({{ $request->id }})">Annehmen</button> <button class="btn btn-danger" onclick="denyRequest({{ $request->id }})">Ablehnen</button></li>
                         @endforeach
                     </ul>
                 </div>

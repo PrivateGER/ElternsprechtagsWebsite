@@ -35,5 +35,7 @@
     @else
         <br />
         @include("layouts.lehrer_dashboard")
+        <br />
+        @include("layouts.lehrer_terminplan")
 @endif
 @endsection

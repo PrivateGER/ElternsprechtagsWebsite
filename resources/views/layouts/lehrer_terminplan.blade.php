@@ -1,3 +1,10 @@
+<?php
+$termine = \App\TimeRequest::where("lehrer", Auth::id())
+            ->where("processed", 1)
+            ->where("denied", 0)
+            ->orderBy("target_date", "desc")
+            ->get();
+?>
 <br />
 <div class="container">
     <div class="row justify-content-center">
@@ -8,7 +15,7 @@
                     <ul class="list-group list-group-flush">
                     @if($termine->count() > 0)
                         @foreach($termine as $termin)
-
+                            <li class="list-group-item termin">{{ $termin->target_date->format("D.M h:m")}} bei {{ $termin->requestedByName }}</li>
                         @endforeach
                     @else
                         <li class="list-group-item"><p>Sie haben noch keine Termine.</p></li>

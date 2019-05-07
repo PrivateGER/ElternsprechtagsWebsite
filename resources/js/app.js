@@ -89,9 +89,53 @@ window.cancelReqSchueler = (reqID) => {
 };
 
 window.approveRequest = (reqID) => {
+    if(confirm("Sind sie sicher dass sie diese Anfrage annehmen wollen?")) {
+        let data = {
+            "reqID": reqID
+        };
 
+        const formBody = Object.keys(data).map(key => encodeURIComponent(key) + '=' + encodeURIComponent(data[key])).join('&');
+
+        fetch("/home/lehrer/acceptRequest", {
+            method: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+                'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
+            },
+            body: formBody
+        }).then((res) => { return res.json() })
+            .then((res) => {
+                if(res.err !== undefined) {
+                    swal("Error", res.err, "error");
+                } else {
+                    swal("Erfolgreich", "Termin wurde erstellt!", "success")
+                }
+            })
+    }
 };
 
 window.denyRequest = (reqID) => {
+    if(confirm("Sind sie sicher dass sie diese Anfrage ablehnen wollen?")) {
+        let data = {
+            "reqID": reqID
+        };
 
+        const formBody = Object.keys(data).map(key => encodeURIComponent(key) + '=' + encodeURIComponent(data[key])).join('&');
+
+        fetch("/home/lehrer/acceptRequest", {
+            method: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+                'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
+            },
+            body: formBody
+        }).then((res) => { return res.json() })
+            .then((res) => {
+                if(res.err !== undefined) {
+                    swal("Error", res.err, "error");
+                } else {
+                    swal("Erfolgreich", "Termin wurde erstellt!", "success")
+                }
+            })
+    }
 };

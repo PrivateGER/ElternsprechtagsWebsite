@@ -126,6 +126,35 @@ class TimeController extends Controller
 
         return view("layouts.lehrer_terminplan", array("termine" => $termine));
     }
+    
+    public function acceptRequestLehrer() {
+        if(Auth::user()["lehrer"] == 0) {
+            return json_encode(array(
+                "err" => "Sie sind kein Lehrer. Wie sind sie überhaupt hier hingekommen?"
+            ));
+        }
+
+        if(!isset(request()->post()["reqID"])) {
+            return json_encode(array(
+               "err" => "RequestID fehlt."
+            ));
+        }
+        
+        $targetRequest = \App\TimeRequest::where("lehrer", "=", Auth::user()["lehrerID"])
+            ->where("id", "=", request()->post()["reqID"])
+            ->get();
+
+        if(count($targetRequest) === 0) {
+            return json_encode(array(
+                "err" => "Es wurde keine Anfrage unter dieser ID gefunden oder Sie haben keinen Zugriff auf sie."
+            ));
+        } else {
+                echo $targetRequest[0]->target_date;
+                DB::update("UPDATE time_requests SET processed = 1 WHERE id = :id", array("id" => request()->post()["reqID"]));
+                DB::update("UPDATE time_requests SET processed = 1, denied = 1 where lehrer = :lehrer and target_date = ':date' and id <> :origID", array("lehrer" => Auth::id()["lehrerID"], "date" => $targetRequest[0]->target_date, "origID" => request()->post()["reqID"]));
+                return json_encode(array());
+        }
+    }
 
     function convertToObject($array) {
         $object = new \stdClass();

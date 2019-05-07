@@ -11,6 +11,8 @@
 |
 */
 
+URL::forceRootUrl('https://laravel.privateger.me');
+
 Route::get('/', function () {
     return view('welcome');
 });
@@ -44,3 +46,7 @@ Route::post("/home/lehrer/cancelRequestS", "TimeController@schuelerCancelRequest
 Auth::routes();
 
 Route::get("/home/lehrer/terminplan", "TimeController@lehrerTerminPlan");
+
+Auth::routes();
+
+Route::post("/home/lehrer/acceptRequest", "TimeController@acceptRequestLehrer");
