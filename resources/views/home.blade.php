@@ -32,10 +32,25 @@
         <div id="schuelerRequestBox">
         @include("layouts.schueler_requests")
         </div>
+        <script>
+            setInterval(() => {
+                updateRequestsS();
+            }, 2500);
+        </script>
     @else
         <br />
+        <div id="lehrerDashboardBox">
         @include("layouts.lehrer_dashboard")
+        </div>
         <br />
+        <div id="lehrerTerminplanBox">
         @include("layouts.lehrer_terminplan")
+        </div>
+        <script>
+            setInterval(() => {
+                updateLehrerDashboard();
+                updateLehrerTerminplan();
+            }, 2500);
+        </script>
 @endif
 @endsection

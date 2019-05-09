@@ -15,7 +15,7 @@ class TimeController extends Controller
     private $timeIntervals;
 
     public function __construct() {
-        $timeIntervals = [array(new DateTime("2019-06-02 12:00"), new DateTime("2019-06-02 14:05"))];
+        $timeIntervals = [array(new DateTime("2019-06-02 12:00"), new DateTime("2019-06-02 15:05"))];
 
     }
 
@@ -45,8 +45,8 @@ class TimeController extends Controller
         }
 
         DB::table("time_requests")->insert(array(
-            "lehrer" => $_POST["lehrerID"],
-            "target_date" => $_POST["date"],
+            "lehrer" => request()->post()["lehrerID"],
+            "target_date" => request()->post()["date"],
             "requestedByID" => Auth::id(),
             "requestedByName" => Auth::user()["name"],
             "denied" => 0,
@@ -63,7 +63,7 @@ class TimeController extends Controller
 
         $lehrer = DB::select("SELECT * FROM lehrer WHERE CONCAT(`Vorname`, ' ', `Nachname`) = :lehrername", array("lehrername" => $lehrername));
 
-        if(sizeof($lehrer) === 0) {
+        if(count($lehrer) === 0) {
             return redirect("/home");
         }
 
@@ -149,10 +149,37 @@ class TimeController extends Controller
                 "err" => "Es wurde keine Anfrage unter dieser ID gefunden oder Sie haben keinen Zugriff auf sie."
             ));
         } else {
-                echo $targetRequest[0]->target_date;
-                DB::update("UPDATE time_requests SET processed = 1 WHERE id = :id", array("id" => request()->post()["reqID"]));
-                DB::update("UPDATE time_requests SET processed = 1, denied = 1 where lehrer = :lehrer and target_date = ':date' and id <> :origID", array("lehrer" => Auth::id()["lehrerID"], "date" => $targetRequest[0]->target_date, "origID" => request()->post()["reqID"]));
-                return json_encode(array());
+            DB::update("UPDATE time_requests SET processed = 1 WHERE id = :id", array("id" => request()->post()["reqID"]));
+            DB::update("UPDATE time_requests SET processed = 1, denied = 1 where `lehrer` = :lehrer and `target_date` = :date and `id` <> :origID", array("lehrer" => Auth::user()["lehrerID"], "date" => $targetRequest[0]->target_date, "origID" => request()->post()["reqID"]));
+            return json_encode(array());
+        }
+    }
+
+    public function denyRequestLehrer() {
+
+        if(Auth::user()["lehrer"] == 0) {
+            return json_encode(array(
+                "err" => "Sie sind kein Lehrer. Wie sind sie überhaupt hier hingekommen?"
+            ));
+        }
+
+        if(!isset(request()->post()["reqID"])) {
+            return json_encode(array(
+                "err" => "RequestID fehlt."
+            ));
+        }
+
+        $targetRequest = \App\TimeRequest::where("lehrer", Auth::user()["lehrerID"])
+            ->where("id", request()->post()["reqID"])
+            ->get();
+
+        if(count($targetRequest) === 0) {
+            return json_encode(array(
+                "err" => "Es wurde keine Anfrage unter dieser ID gefunden oder Sie haben keinen Zugriff auf sie."
+            ));
+        } else {
+            DB::update("UPDATE time_requests SET processed = 1, denied = 1 WHERE id = :id", array("id" => $targetRequest[0]->id));
+            return json_encode(array());
         }
     }
 

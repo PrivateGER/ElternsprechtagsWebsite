@@ -1,5 +1,5 @@
 <?php
-$termine = \App\TimeRequest::where("lehrer", Auth::id())
+$termine = \App\TimeRequest::where("lehrer", Auth::user()["lehrerID"])
             ->where("processed", 1)
             ->where("denied", 0)
             ->orderBy("target_date", "desc")
@@ -15,7 +15,8 @@ $termine = \App\TimeRequest::where("lehrer", Auth::id())
                     <ul class="list-group list-group-flush">
                     @if($termine->count() > 0)
                         @foreach($termine as $termin)
-                            <li class="list-group-item termin">{{ $termin->target_date->format("D.M h:m")}} bei {{ $termin->requestedByName }}</li>
+                            <?php $date = new DateTime($termin->target_date); ?>
+                            <li class="list-group-item termin">{{ $date->format("d.m h:i") }} bei {{ $termin->requestedByName }}</li>
                         @endforeach
                     @else
                         <li class="list-group-item"><p>Sie haben noch keine Termine.</p></li>

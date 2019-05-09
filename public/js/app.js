@@ -37210,6 +37210,8 @@ window.cancelReqSchueler = function (reqID) {
     }).then(function (res) {
       if (res.err !== undefined) {
         sweetalert__WEBPACK_IMPORTED_MODULE_0___default()("Error", res.err, "error");
+      } else {
+        sweetalert__WEBPACK_IMPORTED_MODULE_0___default()("OK", "Anfrage erfolgreich zurückgezogen!", "success");
       }
     }).then(function () {
       return updateRequestsS();
@@ -37218,7 +37220,7 @@ window.cancelReqSchueler = function (reqID) {
 };
 
 window.approveRequest = function (reqID) {
-  if (confirm("Sind sie sicher dass sie diese Anfrage annehmen wollen?")) {
+  if (confirm("Sind sie sicher dass sie diese Anfrage annehmen wollen?\nAchtung: Sollten andere Anfragen zur gleichen Zeit existieren, werden diese abgelehnt!")) {
     var data = {
       "reqID": reqID
     };
@@ -37240,6 +37242,10 @@ window.approveRequest = function (reqID) {
       } else {
         sweetalert__WEBPACK_IMPORTED_MODULE_0___default()("Erfolgreich", "Termin wurde erstellt!", "success");
       }
+    }).then(function () {
+      return updateLehrerTerminplan();
+    }).then(function () {
+      return updateLehrerDashboard();
     });
   }
 };
@@ -37252,7 +37258,7 @@ window.denyRequest = function (reqID) {
     var formBody = Object.keys(data).map(function (key) {
       return encodeURIComponent(key) + '=' + encodeURIComponent(data[key]);
     }).join('&');
-    fetch("/home/lehrer/acceptRequest", {
+    fetch("/home/lehrer/denyRequest", {
       method: 'POST',
       headers: {
         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
@@ -37265,10 +37271,30 @@ window.denyRequest = function (reqID) {
       if (res.err !== undefined) {
         sweetalert__WEBPACK_IMPORTED_MODULE_0___default()("Error", res.err, "error");
       } else {
-        sweetalert__WEBPACK_IMPORTED_MODULE_0___default()("Erfolgreich", "Termin wurde erstellt!", "success");
+        sweetalert__WEBPACK_IMPORTED_MODULE_0___default()("Erfolgreich", "Termin wurde abgelehnt!", "success");
       }
+    }).then(function () {
+      return updateLehrerTerminplan();
+    }).then(function () {
+      return updateLehrerDashboard();
     });
   }
+};
+
+window.updateLehrerTerminplan = function () {
+  fetch("/home/lehrer/terminplan").then(function (res) {
+    return res.text();
+  }).then(function (res) {
+    document.getElementById("lehrerTerminplanBox").innerHTML = res;
+  });
+};
+
+window.updateLehrerDashboard = function () {
+  fetch("/home/lehrer/dashboard").then(function (res) {
+    return res.text();
+  }).then(function (res) {
+    document.getElementById("lehrerDashboardBox").innerHTML = res;
+  });
 };
 
 /***/ }),
@@ -39458,8 +39484,8 @@ $.widget("ui.tooltip",$.ui.tooltip,{options:{tooltipClass:null},_tooltip:functio
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /home/webspace/public_html/ElternsprechtagsWebsite/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /home/webspace/public_html/ElternsprechtagsWebsite/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /home/marc/PhpstormProjects/elternsprechtag/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /home/marc/PhpstormProjects/elternsprechtag/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

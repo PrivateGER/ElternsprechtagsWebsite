@@ -8,10 +8,10 @@
                     <div class="centered">
                         <form action="/home/lehrer/search" method="get">
                              @csrf
-                            <input type="text" id="lehrerInput" name="lehrername" placeholder="Lehrernamen eingeben..." width="match-content">
+                            <input type="text" id="lehrerInput" name="lehrername" placeholder="Lehrernamen eingeben..." class="form-control-plaintext">
                             <div id="lehrerSearchResult"></div>
                             <br />
-                            <input type="submit" value="Suchen">
+                            <button class="btn btn-primary">Suchen <i class="fa fa-fw fa-search"></i></button>
                         </form>
                     </div>
                 </div>

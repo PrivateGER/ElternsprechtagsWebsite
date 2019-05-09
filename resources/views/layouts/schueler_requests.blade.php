@@ -27,7 +27,7 @@ $approvedRequests = \App\TimeRequest::where("requestedByID", \Illuminate\Support
                                 <?php $lehrer = \App\Lehrer::where("Internes Kürzel", "=", $request->lehrer)->get(); ?>
                                 <li class='list-group-item'>
                                     {{ (new DateTime($request->target_date))->format("d.m H:i\n") }} bei {{ $lehrer[0]["Anrede"] . " " . $lehrer[0]["Nachname"] }}
-                                    <button class="right_button" onclick="cancelReqSchueler({{ $request->id }})">Zurückziehen</button>
+                                    <button class="btn btn-danger right_button" onclick="cancelReqSchueler({{ $request->id }})">Zurückziehen</button>
                                 </li>
                             @endforeach
                         @else

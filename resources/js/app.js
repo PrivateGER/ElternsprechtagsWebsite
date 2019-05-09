@@ -82,6 +82,8 @@ window.cancelReqSchueler = (reqID) => {
             .then((res) => {
                 if(res.err !== undefined) {
                     swal("Error", res.err, "error");
+                } else {
+                    swal("OK", "Anfrage erfolgreich zurückgezogen!", "success");
                 }
             })
             .then(() => updateRequestsS());
@@ -89,7 +91,7 @@ window.cancelReqSchueler = (reqID) => {
 };
 
 window.approveRequest = (reqID) => {
-    if(confirm("Sind sie sicher dass sie diese Anfrage annehmen wollen?")) {
+    if(confirm("Sind sie sicher dass sie diese Anfrage annehmen wollen?\nAchtung: Sollten andere Anfragen zur gleichen Zeit existieren, werden diese abgelehnt!")) {
         let data = {
             "reqID": reqID
         };
@@ -111,6 +113,8 @@ window.approveRequest = (reqID) => {
                     swal("Erfolgreich", "Termin wurde erstellt!", "success")
                 }
             })
+            .then(() => updateLehrerTerminplan())
+            .then(() => updateLehrerDashboard());
     }
 };
 
@@ -122,7 +126,7 @@ window.denyRequest = (reqID) => {
 
         const formBody = Object.keys(data).map(key => encodeURIComponent(key) + '=' + encodeURIComponent(data[key])).join('&');
 
-        fetch("/home/lehrer/acceptRequest", {
+        fetch("/home/lehrer/denyRequest", {
             method: 'POST',
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
@@ -134,8 +138,26 @@ window.denyRequest = (reqID) => {
                 if(res.err !== undefined) {
                     swal("Error", res.err, "error");
                 } else {
-                    swal("Erfolgreich", "Termin wurde erstellt!", "success")
+                    swal("Erfolgreich", "Termin wurde abgelehnt!", "success")
                 }
             })
+            .then(() => updateLehrerTerminplan())
+            .then(() => updateLehrerDashboard());
     }
 };
+
+window.updateLehrerTerminplan = () => {
+    fetch("/home/lehrer/terminplan")
+        .then((res) => { return res.text() })
+        .then((res) => {
+            document.getElementById("lehrerTerminplanBox").innerHTML = res;
+        });
+};
+
+window.updateLehrerDashboard = () => {
+    fetch("/home/lehrer/dashboard")
+        .then((res) => { return res.text() })
+        .then((res) => {
+            document.getElementById("lehrerDashboardBox").innerHTML = res;
+        });
+}

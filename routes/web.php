@@ -11,7 +11,7 @@
 |
 */
 
-URL::forceRootUrl('https://laravel.privateger.me');
+URL::forceRootUrl(getenv("APP_URL"));
 
 Route::get('/', function () {
     return view('welcome');
@@ -50,3 +50,13 @@ Route::get("/home/lehrer/terminplan", "TimeController@lehrerTerminPlan");
 Auth::routes();
 
 Route::post("/home/lehrer/acceptRequest", "TimeController@acceptRequestLehrer");
+
+Auth::routes();
+
+Route::post("/home/lehrer/denyRequest", "TimeController@denyRequestLehrer");
+
+Auth::routes();
+
+Route::get("/home/lehrer/dashboard", function () {
+    return view("layouts.lehrer_dashboard");
+});
