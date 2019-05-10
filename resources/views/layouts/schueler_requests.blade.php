@@ -12,6 +12,12 @@ $approvedRequests = \App\TimeRequest::where("requestedByID", \Illuminate\Support
         ->orderBy("target_date", "desc")
         ->get();
 
+$deniedRequests = \App\TimeRequest::where("requestedByID", \Illuminate\Support\Facades\Auth::id())
+    ->where("processed", "=", "1")
+    ->where("denied", "=", "1")
+    ->orderBy("target_date", "desc")
+    ->get();
+
 ?>
 <br />
 <div class="container">
@@ -40,6 +46,14 @@ $approvedRequests = \App\TimeRequest::where("requestedByID", \Illuminate\Support
                                 <?php $lehrer = \App\Lehrer::where("Internes Kürzel", "=", $request->lehrer)->get(); ?>
                                 <li class="list-group-item termin">{{ (new DateTime($request->target_date))->format("d.m H:i\n") }} bei {{ $lehrer[0]["Anrede"] . " " . $lehrer[0]["Nachname"]}}</li>
                             @endforeach
+                        @endif
+
+                        @if($deniedRequests->count() > 0)
+                            <li class="list-group-item">Sie haben {{ $deniedRequests->count() }} von Lehrern abgelehnte Anfrage(n).</li>
+                             @foreach($deniedRequests as $request)
+                                <?php $lehrer = \App\Lehrer::where("Internes Kürzel", "=", $request->lehrer)->get(); ?>
+                                <li class="list-group-item denied_termin">{{ (new DateTime($request->target_date))->format("d.m H:i\n") }} bei {{ $lehrer[0]["Anrede"] . " " . $lehrer[0]["Nachname"]}}</li>
+                             @endforeach
                         @endif
                     </ul>
                 </div>

@@ -27,7 +27,7 @@ window.setupLehrersuche = () => {
 
 window.requestDate = (dateString) => {
     let lehrerID = document.getElementById("lehrerID").value;
-    if(confirm("Sind sie sicher dass sie den Termin um " + dateString + " anfragen möchten?")) {
+    if(confirm("Sind Sie sicher dass Sie den Termin um " + dateString + " anfragen möchten?")) {
 
         let data = {
             "lehrerID": lehrerID,
@@ -63,7 +63,7 @@ window.updateRequestsS = () => {
 };
 
 window.cancelReqSchueler = (reqID) => {
-    if(confirm("Sind sie sicher dass sie die Anfrage zurückziehen möchten?")) {
+    if(confirm("Sind Sie sicher dass Sie die Anfrage zurückziehen möchten?")) {
 
         let data = {
             "reqID": reqID
@@ -91,7 +91,7 @@ window.cancelReqSchueler = (reqID) => {
 };
 
 window.approveRequest = (reqID) => {
-    if(confirm("Sind sie sicher dass sie diese Anfrage annehmen wollen?\nAchtung: Sollten andere Anfragen zur gleichen Zeit existieren, werden diese abgelehnt!")) {
+    if(confirm("Sind Sie sicher dass Sie diese Anfrage annehmen wollen?\nAchtung: Sollten andere Anfragen zur gleichen Zeit existieren, werden diese abgelehnt!")) {
         let data = {
             "reqID": reqID
         };
@@ -119,7 +119,7 @@ window.approveRequest = (reqID) => {
 };
 
 window.denyRequest = (reqID) => {
-    if(confirm("Sind sie sicher dass sie diese Anfrage ablehnen wollen?")) {
+    if(confirm("Sind Sie sicher dass Sie diese Anfrage ablehnen wollen?")) {
         let data = {
             "reqID": reqID
         };
