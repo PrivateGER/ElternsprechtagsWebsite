@@ -26,6 +26,8 @@
         </div>
     </div>
 </div>
+<br />
+@include("layouts.direct_message_search")
 @if (\Illuminate\Support\Facades\Auth::user()["lehrer"] === 0)
         <br />
         @include("layouts.lehrer_search")

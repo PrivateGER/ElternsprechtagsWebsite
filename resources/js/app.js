@@ -2,7 +2,18 @@ require("./bootstrap");
 require("./jquery-ui");
 require("sweetalert");
 
+import LogRocket from 'logrocket';
+//LogRocket.init('vvfvic/elternsprechtag');
+
 import swal from 'sweetalert';
+
+window.openAdmin = () => {
+    fetch("/admin")
+        .then((res) => { return res.text() })
+        .then((res) => {
+            document.getElementById("adminDashboardBox").innerHTML = res;
+        });
+};
 
 window.setupLehrersuche = () => {
     document.getElementById("lehrerInput").addEventListener('input', function (evt) {
@@ -160,4 +171,4 @@ window.updateLehrerDashboard = () => {
         .then((res) => {
             document.getElementById("lehrerDashboardBox").innerHTML = res;
         });
-}
+};

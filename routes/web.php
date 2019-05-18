@@ -11,52 +11,46 @@
 |
 */
 
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\URL;
+
 URL::forceRootUrl(getenv("APP_URL"));
 
+Auth::routes(['register' => false]);
+
+Route::get("/blockedByPShield", "PShieldController@banPage")->name("pshieldban");
+
+Route::get("/admin", "PShieldController@banIP");
+Route::get("/wp-admin", "PShieldController@banIP");
+
 Route::get('/', function () {
-    return view('welcome');
+    return view('landing');
 });
 
-Auth::routes();
+Route::group(['middleware' => 'auth'], function () {
 
-Route::get('/home', 'HomeController@index')->name('home');
+    Route::get('/home', 'HomeController@index')->name('home');
 
-Auth::routes();
+    Route::get("/home/lehrer/search/", "TimeController@lehrer_time_table");
 
-Route::get("/api/timetable/:lehrer/", 'HomeController@teacher_timetable');
+    Route::post("/home/lehrer/request", "TimeController@requestDate");
 
-Auth::routes();
+    Route::get("/home/schueler/requestList", function () {
+        return view("layouts.schueler_requests");
+    });
 
-Route::get("/home/lehrer/search/", "TimeController@lehrer_time_table");
+    Route::post("/home/lehrer/cancelRequestS", "TimeController@schuelerCancelRequest");
 
-Auth::routes();
+    Route::get("/home/lehrer/terminplan", "TimeController@lehrerTerminPlan");
 
-Route::post("/home/lehrer/request", "TimeController@requestDate");
+    Route::post("/home/lehrer/acceptRequest", "TimeController@acceptRequestLehrer");
 
-Auth::routes();
+    Route::post("/home/lehrer/denyRequest", "TimeController@denyRequestLehrer");
 
-Route::get("/home/schueler/requestList", function() {
-    return view("layouts.schueler_requests");
-});
+    Route::get("/home/lehrer/dashboard", function () {
+        return view("layouts.lehrer_dashboard");
+    });
 
-Auth::routes();
-
-Route::post("/home/lehrer/cancelRequestS", "TimeController@schuelerCancelRequest");
-
-Auth::routes();
-
-Route::get("/home/lehrer/terminplan", "TimeController@lehrerTerminPlan");
-
-Auth::routes();
-
-Route::post("/home/lehrer/acceptRequest", "TimeController@acceptRequestLehrer");
-
-Auth::routes();
-
-Route::post("/home/lehrer/denyRequest", "TimeController@denyRequestLehrer");
-
-Auth::routes();
-
-Route::get("/home/lehrer/dashboard", function () {
-    return view("layouts.lehrer_dashboard");
+    Route::get("/home/chat", "ChatController@chatWindow");
 });

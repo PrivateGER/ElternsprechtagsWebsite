@@ -24,6 +24,7 @@
         "vue-template-compiler": "^2.6.2"
     },
     "dependencies": {
+        "logrocket": "^0.6.21",
         "sweetalert": "^2.1.2"
     }
 }
