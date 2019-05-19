@@ -42328,8 +42328,8 @@ $.widget("ui.tooltip",$.ui.tooltip,{options:{tooltipClass:null},_tooltip:functio
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /home/marc/PhpstormProjects/elternsprechtag/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /home/marc/PhpstormProjects/elternsprechtag/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /home/privateger/Projekte/ElternsprechtagsWebsite/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /home/privateger/Projekte/ElternsprechtagsWebsite/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

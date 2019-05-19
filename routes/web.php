@@ -23,6 +23,11 @@ Route::get("/blockedByPShield", "PShieldController@banPage")->name("pshieldban")
 
 Route::get("/admin", "PShieldController@banIP");
 Route::get("/wp-admin", "PShieldController@banIP");
+Route::get("/phpinfo.php", "PShield@banIP");
+Route::get("/phpmyadmin", "PShield@banIP");
+Route::get("/panel.php", "PShield@banIP");
+Route::get("/admin.php", "PShield@banIP");
+
 
 Route::get('/', function () {
     return view('landing');

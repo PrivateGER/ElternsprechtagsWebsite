@@ -57,6 +57,7 @@
     <div class="flex-center position-ref full-height">
         <div class="content">
             <div class="m-b-md">
+		<img src="gymnasium_st_michael.jpg" heigth="270" width="250" />
                 <h1 class="title">{{ getenv("APP_NAME") }}</h1>
             </div>
 
