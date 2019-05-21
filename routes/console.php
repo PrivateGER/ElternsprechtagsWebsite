@@ -62,7 +62,7 @@ Artisan::command("regenerate-users", function () {
         User::create( [
             'email' =>  strtolower($decodedLehrer["Vorname"]) . "." . strtolower($decodedLehrer["Nachname"]) . '@gsma.schulbistum.de' ,
             'password' => Hash::make( $lehrerPass ) ,
-            'name' => $decodedLehrer["Nachname"] . $decodedSchueler["Vorname"],
+            'name' => $decodedLehrer["Nachname"] . $decodedLehrer["Vorname"],
             'lehrer' => '1',
             'lehrerID' => $decodedLehrer["Internes Kürzel"]
         ]);

@@ -15,6 +15,51 @@ window.openAdmin = () => {
         });
 };
 
+window.updateChatMessages = () => {
+    fetch(`/home/chatMessagesAPI?lehrer=${lehrer}&name=${name}`)
+        .then((res) => { return res.json() })
+        .then((res) => {
+            console.log(res);
+
+            document.getElementById("messages").innerHTML = "";
+
+            res.forEach((msg) => {
+                let li = document.createElement("li");
+                li.classList = "list-group-item";
+                li.innerText = msg;
+                document.getElementById("messages").appendChild(li);
+            })
+        });
+};
+
+window.sendChatMessage = () => {
+    let text = document.getElementById("chatMessage").value;
+
+    let data = {
+        "message": text,
+        "recipient": recipient
+    };
+
+    const formBody = Object.keys(data).map(key => encodeURIComponent(key) + '=' + encodeURIComponent(data[key])).join('&');
+
+    fetch("/home/sendChatMessage", {
+        method: 'POST',
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+            'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
+        },
+        body: formBody}
+    ).then((res) => { return res.json() })
+     .then((json) => {
+         if(json.err === undefined) {
+             document.getElementById("chatMessage").value = "";
+             updateChatMessages();
+         } else {
+             swal("Error", json.err, "error");
+         }
+     });
+};
+
 window.setupLehrersuche = () => {
     document.getElementById("lehrerInput").addEventListener('input', function (evt) {
         processLehrerSearch(this.value);
@@ -172,3 +217,17 @@ window.updateLehrerDashboard = () => {
             document.getElementById("lehrerDashboardBox").innerHTML = res;
         });
 };
+
+function getQueryParams(qs) {
+    qs = qs.split('+').join(' ');
+
+    var params = {},
+        tokens,
+        re = /[?&]?([^=]+)=([^&]*)/g;
+
+    while (tokens = re.exec(qs)) {
+        params[decodeURIComponent(tokens[1])] = decodeURIComponent(tokens[2]);
+    }
+
+    return params;
+}

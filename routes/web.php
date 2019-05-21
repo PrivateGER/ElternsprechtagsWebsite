@@ -58,4 +58,8 @@ Route::group(['middleware' => 'auth'], function () {
     });
 
     Route::get("/home/chat", "ChatController@chatWindow");
+
+    Route::post("/home/sendChatMessage", "ChatController@sendMessage");
+
+    Route::get("/home/chatMessagesAPI", "ChatController@getMessagesAsJSON");
 });

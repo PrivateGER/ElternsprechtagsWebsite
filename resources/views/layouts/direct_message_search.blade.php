@@ -30,7 +30,7 @@
             $suggestions = [];
 
             foreach ($alleSchueler as $schueler) {
-                array_push($suggestions, $schueler->Nachname . " " . $schueler->Vorname);
+                array_push($suggestions, $schueler->Nachname .  $schueler->Vorname);
             }
         } else {
             $alleLehrer = \App\Lehrer::getAllLehrerNames();

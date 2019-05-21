@@ -39977,6 +39977,49 @@ window.openAdmin = function () {
   });
 };
 
+window.updateChatMessages = function () {
+  fetch("/home/chatMessagesAPI?lehrer=".concat(lehrer, "&name=").concat(name)).then(function (res) {
+    return res.json();
+  }).then(function (res) {
+    console.log(res);
+    document.getElementById("messages").innerHTML = "";
+    res.forEach(function (msg) {
+      var li = document.createElement("li");
+      li.classList = "list-group-item";
+      li.innerText = msg;
+      document.getElementById("messages").appendChild(li);
+    });
+  });
+};
+
+window.sendChatMessage = function () {
+  var text = document.getElementById("chatMessage").value;
+  var data = {
+    "message": text,
+    "recipient": recipient
+  };
+  var formBody = Object.keys(data).map(function (key) {
+    return encodeURIComponent(key) + '=' + encodeURIComponent(data[key]);
+  }).join('&');
+  fetch("/home/sendChatMessage", {
+    method: 'POST',
+    headers: {
+      'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+      'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
+    },
+    body: formBody
+  }).then(function (res) {
+    return res.json();
+  }).then(function (json) {
+    if (json.err === undefined) {
+      document.getElementById("chatMessage").value = "";
+      updateChatMessages();
+    } else {
+      sweetalert__WEBPACK_IMPORTED_MODULE_1___default()("Error", json.err, "error");
+    }
+  });
+};
+
 window.setupLehrersuche = function () {
   document.getElementById("lehrerInput").addEventListener('input', function (evt) {
     processLehrerSearch(this.value);
@@ -40140,6 +40183,19 @@ window.updateLehrerDashboard = function () {
     document.getElementById("lehrerDashboardBox").innerHTML = res;
   });
 };
+
+function getQueryParams(qs) {
+  qs = qs.split('+').join(' ');
+  var params = {},
+      tokens,
+      re = /[?&]?([^=]+)=([^&]*)/g;
+
+  while (tokens = re.exec(qs)) {
+    params[decodeURIComponent(tokens[1])] = decodeURIComponent(tokens[2]);
+  }
+
+  return params;
+}
 
 /***/ }),
 
@@ -42328,8 +42384,8 @@ $.widget("ui.tooltip",$.ui.tooltip,{options:{tooltipClass:null},_tooltip:functio
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /home/privateger/Projekte/ElternsprechtagsWebsite/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /home/privateger/Projekte/ElternsprechtagsWebsite/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /home/marc/PhpstormProjects/elternsprechtag/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /home/marc/PhpstormProjects/elternsprechtag/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

@@ -26,7 +26,7 @@
         <br />
         <h1 class="header">Deine IP wurde von PShield als Gefahr eingestuft und gebannt. Komm später wieder.</h1>
         <h3>Du solltest diesen Bildschirm nicht sehen? Kontaktiere {{ getenv("SUPPORT_EMAIL") }}.</h3>
-        <div style="display: flex; justify-content: center;"><h3>Ban ID: {{ hash("sha256", $_SERVER["REMOTE_ADDR"] . "ELTERNSPRECHTAGONLINE") }}</h3></div>
+        <div style="display: flex; justify-content: center;"><h3>Ban ID: {{ hash("sha256", $_SERVER["REMOTE_ADDR"] . getenv("APP_KEY")) }}</h3></div>
     </div>
 </body>
 </html>
