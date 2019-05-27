@@ -43,10 +43,12 @@
     ?>
 
     let chatSuggestions = JSON.parse('<?= json_encode($suggestions) ?>');
-
-    $(function () {
-        $("#chatAutocomplete").autocomplete({
-            source: chatSuggestions
-        });
+  
+    addLoadEvent(() => {
+      $(function () {
+         $("#chatAutocomplete").autocomplete({
+             source: chatSuggestions
+         });
+      });
     });
 </script>

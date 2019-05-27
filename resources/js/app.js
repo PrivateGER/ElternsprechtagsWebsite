@@ -1,6 +1,12 @@
 require("./bootstrap");
-require("./jquery-ui");
 require("sweetalert");
+
+import $ from 'jquery';
+
+window.$ = window.jQuery = $;
+
+import 'jquery-ui/ui/widgets/autocomplete.js';
+
 
 import LogRocket from 'logrocket';
 //LogRocket.init('vvfvic/elternsprechtag');

@@ -33,14 +33,13 @@
 
     echo "let lehrer = JSON.parse('" . json_encode($lehrerNames) . "');";
 ?>
+window.onload = () => {
+  setupLehrersuche();
 
-setupLehrersuche();
-
-$(function () {
-   $("#lehrerInput").autocomplete({
-       source: lehrer
-   });
-});
-
-
+  addLoadEvent(() => {
+    $("#lehrerInput").autocomplete({
+        source: lehrer
+    });
+  });
+}
 </script>

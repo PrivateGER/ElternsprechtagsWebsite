@@ -12,7 +12,7 @@
 @import "st_michael_color_scheme";
 
 // jQuery UI CSS
-@import url("https://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery.ui.all.css");
+@import '~jquery-ui/themes/base/all.css';
 
 // FontAwesome
 @import "../../node_modules/@fortawesome/fontawesome-free/scss/fontawesome";
