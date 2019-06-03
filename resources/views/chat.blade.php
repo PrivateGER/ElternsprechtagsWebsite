@@ -40,9 +40,11 @@ $selfID = Auth::id();
      let recipient = "{{ $otherID }}";
      let name = "{{ $otherName }}";
      let lehrer = "{{ request()->input()["lehrer"] }}";
-
-     setInterval(() => {
-         updateChatMessages();
-     }, 2500)
+ 
+     window.addEventListener('DOMContentLoaded', () => {
+      	setInterval(() => {
+     		updateChatMessages();
+      	}, 2500);
+     });
 </script>
 @endsection

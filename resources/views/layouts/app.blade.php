@@ -19,22 +19,6 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-  
-    <script>
-      function addLoadEvent(func) {
-      var oldonload = window.onload;
-      if (typeof window.onload != 'function') {
-        window.onload = func;
-      } else {
-        window.onload = function() {
-          if (oldonload) {
-          oldonload();
-         }
-         func();
-        }
-      }
-    }
-    </script>
 </head>
 <body>
     <div id="app">

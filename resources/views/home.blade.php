@@ -35,9 +35,11 @@
         @include("layouts.schueler_requests")
         </div>
         <script>
+          window.addEventListener('DOMContentLoaded', () => {
             setInterval(() => {
                 updateRequestsS();
             }, 2500);
+          });
         </script>
     @else
         <br />
@@ -49,10 +51,12 @@
         @include("layouts.lehrer_terminplan")
         </div>
         <script>
+          window.addEventListener('DOMContentLoaded', () => {
             setInterval(() => {
                 updateLehrerDashboard();
                 updateLehrerTerminplan();
             }, 2500);
+          });
         </script>
 @endif
 @endsection

@@ -13,7 +13,7 @@ import LogRocket from 'logrocket';
 
 import swal from 'sweetalert';
 
-window.openAdmin = () => {
+window.opnAdmin = () => {
     fetch("/admin")
         .then((res) => { return res.text() })
         .then((res) => {

@@ -44,7 +44,7 @@
 
     let chatSuggestions = JSON.parse('<?= json_encode($suggestions) ?>');
   
-    addLoadEvent(() => {
+    window.addEventListener('DOMContentLoaded', () => {
       $(function () {
          $("#chatAutocomplete").autocomplete({
              source: chatSuggestions
