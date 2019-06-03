@@ -1,19 +1,20 @@
 require("./bootstrap");
 require("sweetalert");
+require("jquery");
+require("jquery-ui-bundle");
 
 import $ from 'jquery';
 
 window.$ = window.jQuery = $;
 
-import 'jquery-ui/ui/widgets/autocomplete.js';
-
+//import '~jquery-ui/ui/widgets/autocomplete.js';
 
 import LogRocket from 'logrocket';
 //LogRocket.init('vvfvic/elternsprechtag');
 
 import swal from 'sweetalert';
 
-window.opnAdmin = () => {
+window.openAdmin = () => {
     fetch("/admin")
         .then((res) => { return res.text() })
         .then((res) => {
@@ -66,26 +67,6 @@ window.sendChatMessage = () => {
      });
 };
 
-window.setupLehrersuche = () => {
-    document.getElementById("lehrerInput").addEventListener('input', function (evt) {
-        processLehrerSearch(this.value);
-    });
-
-    document.getElementById("lehrerInput").addEventListener('paste', function (evt) {
-        processLehrerSearch(this.value);
-    });
-
-    document.getElementById("lehrerInput").addEventListener('select', function (evt) {
-        processLehrerSearch(this.value);
-    });
-
-    window.processLehrerSearch = (name) => {
-        if(name.length > 4) {
-            document.getElementById("lehrerSearchResult").innerHTML = "";
-            console.log(name)
-        }
-    }
-};
 
 window.requestDate = (dateString) => {
     let lehrerID = document.getElementById("lehrerID").value;
@@ -108,7 +89,11 @@ window.requestDate = (dateString) => {
         }).then((res) => { return res.json() })
             .then((res) => {
                 if(res.err === undefined) {
-                    swal("OK", "Anfrage erfolgreich versendet!", "success");
+                    swal("OK", "Anfrage erfolgreich versendet!", "success")
+                        .then(() => {
+                            window.location.reload();
+                        })
+
                 } else {
                     swal("Error", res.err, "error");
                 }

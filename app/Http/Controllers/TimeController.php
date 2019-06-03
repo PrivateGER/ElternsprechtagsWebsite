@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Mail;
 
 class TimeController extends Controller
 {
@@ -150,7 +151,39 @@ class TimeController extends Controller
             ));
         } else {
             DB::update("UPDATE time_requests SET processed = 1 WHERE id = :id", array("id" => request()->post()["reqID"]));
+
             DB::update("UPDATE time_requests SET processed = 1, denied = 1 where `lehrer` = :lehrer and `target_date` = :date and `id` <> :origID", array("lehrer" => Auth::user()["lehrerID"], "date" => $targetRequest[0]->target_date, "origID" => request()->post()["reqID"]));
+
+            $deletedRequests = DB::select("SELECT * FROM time_requests WHERE `lehrer` = :lehrer and `target_date` = :date and `id` <> :origID", array("lehrer" => Auth::user()["lehrerID"], "date" => $targetRequest[0]->target_date, "origID" => request()->post()["reqID"]));
+            foreach ($deletedRequests as $deniedRequest) {
+
+                $emailAddress = \App\User::where("name", $deniedRequest->requestedByName)
+                        ->get()[0]->email;
+
+                $data = array(
+                    "date" => $deniedRequest->target_date,
+                    "lehrer" => Auth::user()["name"]
+                );
+
+                Mail::send("emails.termindenied", array("data" => $data), function ($message) use ($emailAddress) {
+                    $message->from(getenv("SUPPORT_EMAIL"), getenv("APP_NAME"). " Administration");
+                    $message->to($emailAddress)->subject("Termininformation | " . getenv("APP_NAME"));
+                });
+            }
+
+            $acceptedEmailAddress = \App\User::where("name", $targetRequest[0]->requestedByName)
+                ->get()[0]->email;
+
+            $data = array(
+                "date" => $targetRequest[0]->target_date,
+                "lehrer" => Auth::user()["name"]
+            );
+
+            Mail::send("emails.terminaccepted", array("data" => $data), function ($message) use ($acceptedEmailAddress) {
+                $message->from(getenv("SUPPORT_EMAIL"), getenv("APP_NAME"). " Administration");
+                $message->to($acceptedEmailAddress)->subject("Termininformation | " . getenv("APP_NAME"));
+            });
+
             return json_encode(array());
         }
     }
