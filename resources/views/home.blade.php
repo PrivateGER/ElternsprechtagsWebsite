@@ -26,8 +26,12 @@
         </div>
     </div>
 </div>
-<br />
+<div id="chatNotifs">
+@include("layouts.message_notifs")
+</div>
+
 @include("layouts.direct_message_search")
+
 @if (\Illuminate\Support\Facades\Auth::user()["lehrer"] === 0)
         <br />
         @include("layouts.lehrer_search")
@@ -38,6 +42,7 @@
           window.addEventListener('DOMContentLoaded', () => {
             setInterval(() => {
                 updateRequestsS();
+                updateChatNotifications();
             }, 2500);
           });
         </script>
@@ -55,6 +60,7 @@
             setInterval(() => {
                 updateLehrerDashboard();
                 updateLehrerTerminplan();
+                updateChatNotifications();
             }, 2500);
           });
         </script>

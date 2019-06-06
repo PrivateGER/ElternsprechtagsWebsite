@@ -39,6 +39,14 @@ window.updateChatMessages = () => {
         });
 };
 
+window.updateChatNotifications = () => {
+    fetch("/home/chatNotifs")
+        .then((res) => { return res.text() })
+        .then((res) => {
+            document.getElementById("chatNotifs").innerHTML = res;
+        });
+};
+
 window.sendChatMessage = () => {
     let text = document.getElementById("chatMessage").value;
 

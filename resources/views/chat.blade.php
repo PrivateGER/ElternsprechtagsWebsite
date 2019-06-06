@@ -42,6 +42,7 @@ $selfID = Auth::id();
      let lehrer = "{{ request()->input()["lehrer"] }}";
  
      window.addEventListener('DOMContentLoaded', () => {
+        updateChatMessages();
       	setInterval(() => {
      		updateChatMessages();
       	}, 2500);

@@ -57,6 +57,8 @@ Route::group(['middleware' => 'auth'], function () {
         return view("layouts.lehrer_dashboard");
     });
 
+    Route::get("/home/chatNotifs", "ChatController@chatNotifications");
+
     Route::get("/home/chat", "ChatController@chatWindow");
 
     Route::post("/home/sendChatMessage", "ChatController@sendMessage");

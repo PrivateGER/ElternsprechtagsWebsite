@@ -18,6 +18,7 @@ class ChatMessages extends Migration
             $table->integer("author");
             $table->integer("recipient");
             $table->text("message");
+            $table->integer("readMessage")->default(0);
             $table->timestamps();
         });
     }
