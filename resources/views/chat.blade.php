@@ -13,6 +13,7 @@ $selfID = Auth::id();
                 <div class="card-header">Dashboard</div>
 
                 <div class="card-body">
+                    <a href="/home"><button class="btn btn-outline-info btn-block rounded-el">Zurück</button></a>
                     <ul class="list-group list-group-flush">
                         <div id="messages">
                             @foreach($messages as $message)

@@ -96,11 +96,9 @@ class ChatController extends Controller
         }
         header('Content-Type: application/json');
 
-        $stmt = $pdo->prepare("UPDATE chat_messages SET readMessage = 1 WHERE (`author` = ? AND `recipient` = ?) OR (`author` = ? AND `recipient` = ?) ORDER BY created_at");
-        $stmt->bindParam(1, $self);
-        $stmt->bindParam(2, $recID);
-        $stmt->bindParam(3, $recID);
-        $stmt->bindParam(4, $self);
+        $stmt = $pdo->prepare("UPDATE chat_messages SET readMessage = 1 WHERE (`author` = ? AND `recipient` = ?) ORDER BY created_at");
+        $stmt->bindParam(1, $recID);
+        $stmt->bindParam(2, $self);
         $stmt->execute();
 
         return json_encode($formattedMessages);

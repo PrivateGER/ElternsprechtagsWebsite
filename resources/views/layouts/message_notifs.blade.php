@@ -17,7 +17,7 @@ $unreadNotifs = DB::select("SELECT DISTINCT(author), created_at FROM chat_messag
                 <div class="card-body">
                     <ul class="list-group list-group-flush">
                         @if(count($unreadNotifs) > 0)
-                            <li class="list-group-item">Sie haben <b>{{ count($unreadNotifs) }}</b> ungelesene Chatnachrichten.</li>
+                            <li class="list-group-item">Sie haben <b>{{ count($unreadNotifs) }}</b> ungelesene Chatnachricht(en).</li>
                             @foreach($unreadNotifs as $notif)
                                 <?php $notifName = \App\User::select("name")->where("id", $notif->author)->get()[0]->name; ?>
                                 <li class="list-group-item">
