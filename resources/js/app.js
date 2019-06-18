@@ -30,11 +30,26 @@ window.updateChatMessages = () => {
 
             document.getElementById("messages").innerHTML = "";
 
+            let i = 0;
             res.forEach((msg) => {
                 let li = document.createElement("li");
                 li.classList = "list-group-item";
+              
+                let parsedMsg = msg.split("|||");
+                msg = parsedMsg[0];
                 li.innerText = msg;
+                li.id = "msg" + i;
+            
                 document.getElementById("messages").appendChild(li);
+              
+                let date = parsedMsg[1];
+              
+                let span = document.createElement("span");
+                span.style = "float: right";
+                span.innerText = date;
+              
+                document.getElementById("msg" + i).appendChild(span);
+                i++;
             })
         });
 };
