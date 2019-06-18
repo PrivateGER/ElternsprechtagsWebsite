@@ -2,9 +2,11 @@
 
 namespace App\Http\Middleware;
 
+use Illuminate\Contracts\Encryption\DecryptException;
 use Carbon\Carbon;
 use Closure;
 use Illuminate\Support\Facades\Route;
+use Crypt;
 
 class PShield
 {
@@ -22,12 +24,15 @@ class PShield
         $currentroute = $route->getName();
       
         $cookieBan = false;
-        if(request()->cookie("pshield") == "1") {
-          $cookieBan = true;
-        } else {
-          $cookieBan = false;
+        if(request()->cookie("pshield") !== "") {
+          try {
+            $decryptedCookie = Crypt::decryptString(request()->cookie("pshield"));
+            $cookieBan = filter_var($decryptedCookie, FILTER_VALIDATE_BOOLEAN);
+          } catch(DecryptException $e) {
+            $cookieBan = false;
+          }
         }
-
+      
         if(($currentroute !== "pshieldban" && $cookieBan) || ($currentroute !== "pshieldban" && \App\IPBans::where("ip", $_SERVER["REMOTE_ADDR"])->where("created_at", ">=", $twoHourInterval)->count() > 0)) {
             return redirect()->route("pshieldban");
         }
