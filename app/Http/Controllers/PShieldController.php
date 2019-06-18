@@ -11,7 +11,8 @@ class PShieldController extends Controller
         $ban->ip = request()->ip();
         $ban->banHash = hash("sha256", request()->ip() . getenv("APP_KEY"));
         $ban->save();
-        return redirect("blockedByPShield");
+        return redirect("blockedByPShield")
+            ->cookie(cookie("pshield", "1", 90));
     }
 
     public function banPage() {
