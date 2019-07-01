@@ -42,6 +42,13 @@ $selfID = Auth::id();
      let name = "{{ $otherName }}";
      let lehrer = "{{ request()->input()["lehrer"] }}";
  
+     document.getElementById("chatMessage").addEventListener("keydown", (event) => {
+      if(event.keyCode === 13) {
+        event.preventDefault();
+        sendChatMessage();
+      }
+     });
+  
      window.addEventListener('DOMContentLoaded', () => {
         updateChatMessages();
       	setInterval(() => {
