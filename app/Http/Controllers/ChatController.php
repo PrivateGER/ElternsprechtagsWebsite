@@ -89,11 +89,11 @@ class ChatController extends Controller
 
         foreach ($messages as $message) {
             //var_dump($message);
-			$dt = new DateTime($message["created_at"]);
+			      $dt = new DateTime($message["created_at"]);
             if($message["author"] === Auth::id()) {
                 array_push($formattedMessages, "Sie: " . $message["message"] . "|||" . $dt->format("H:i\n"));
             } else {
-                array_push($formattedMessages, $request->input()["name"] . ": " . $message["message"]);
+                array_push($formattedMessages, $request->input()["name"] . ": " . $message["message"] . "|||" . $dt->format("H:i\n"));
             }
         }
         header('Content-Type: application/json');
