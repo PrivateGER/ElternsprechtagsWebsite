@@ -26,8 +26,7 @@ class ChatController extends Controller
         if(count($recID) > 0) {
             $recID = $recID[0]->id;
         } else {
-            echo "couldnt find user";
-            //return redirect("home");
+            return redirect("home");
         }
         
         $self = Auth::id();
