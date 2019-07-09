@@ -9,7 +9,7 @@ window.$ = window.jQuery = $;
 
 //import '~jquery-ui/ui/widgets/autocomplete.js';
 
-import LogRocket from 'logrocket';
+//import LogRocket from 'logrocket';
 //LogRocket.init('vvfvic/elternsprechtag');
 
 import swal from 'sweetalert';
@@ -26,8 +26,6 @@ window.updateChatMessages = () => {
     fetch(`/home/chatMessagesAPI?lehrer=${lehrer}&name=${name}`)
         .then((res) => { return res.json() })
         .then((res) => {
-            console.log(res);
-
             document.getElementById("messages").innerHTML = "";
 
             let i = 0;

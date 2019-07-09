@@ -15,6 +15,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\URL;
 
+use \ParagonIE\Halite\KeyFactory;
+
 URL::forceRootUrl(getenv("APP_URL"));
 
 Auth::routes(['register' => false]);
@@ -34,6 +36,8 @@ Route::get('/', function () {
 });
 
 Route::group(['middleware' => 'auth'], function () {
+
+    //Route::get("/");
 
     Route::get('/home', 'HomeController@index')->name('home');
 

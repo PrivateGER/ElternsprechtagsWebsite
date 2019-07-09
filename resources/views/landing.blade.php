@@ -53,6 +53,8 @@
                 font-size: 84px;
             }
         }
+
+
     </style>
     <div class="flex-center position-ref full-height">
         <div class="content">
@@ -61,11 +63,16 @@
             </div>
 
             <div class="links">
+
                 @if (Route::has('login'))
                     @auth
-                        <a href="{{ url('/home') }}">Home</a>
+                        <form action="{{ url('/home') }}">
+                            <button class="btn btn-outline-secondary rounded-el font-weight-bold"><u>Home</u></button>
+                        </form>
                     @else
-                        <a href="{{ route('login') }}">Login</a>
+                        <form action="{{ route('login') }}">
+                            <button class="btn btn-outline-secondary rounded-el font-weight-bold"><u>Login</u></button>
+                        </form>
                     @endauth
                 @endif
             </div>

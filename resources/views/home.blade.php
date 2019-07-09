@@ -47,6 +47,7 @@
           });
         </script>
     @else
+
         <br />
         <div id="lehrerDashboardBox">
         @include("layouts.lehrer_dashboard")

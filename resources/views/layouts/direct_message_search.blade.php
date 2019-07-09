@@ -4,7 +4,7 @@
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header">Privatchat</div>
-                <div class="card-body">
+                <div class="card-body centered">
                     <form action="/home/chat" method="get">
                         @if(\Illuminate\Support\Facades\Auth::user()["lehrer"] === 1)
                             <input type="text" class="form-control-plaintext" name="name" placeholder="Schülername eingeben..."
@@ -26,18 +26,18 @@
 <script>
     <?php
         if(\Illuminate\Support\Facades\Auth::user()["lehrer"] === 1) {
-            $alleSchueler = DB::select("SELECT DISTINCT `Nachname`, `Vorname` from schueler  ORDER BY `Nachname`");
+            $alleSchueler = \App\User::where("lehrer", 0)->get();
             $suggestions = [];
 
             foreach ($alleSchueler as $schueler) {
-                array_push($suggestions, $schueler->Nachname .  $schueler->Vorname);
+                array_push($suggestions, $schueler->name);
             }
         } else {
-            $alleLehrer = \App\Lehrer::getAllLehrerNames();
+            $alleLehrer = \App\User::where("lehrer", 1)->get();
             $suggestions = [];
 
-            foreach ($alleLehrer as $schueler) {
-                array_push($suggestions, $schueler->Nachname . $schueler->Vorname);
+            foreach ($alleLehrer as $lehrer) {
+                array_push($suggestions, $lehrer->name);
             }
         }
     ?>
